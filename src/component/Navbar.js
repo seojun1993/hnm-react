@@ -16,19 +16,18 @@ const Navbar = ( { authenticate, setAuthenticate } ) => {
       }
     }
 
+    const loginHandler = () => {
+      authenticate ? setAuthenticate(false) : navigate('/login');
+    }
+
     useEffect(() => {
-      if(authenticate){
-        setStatus('로그아웃')
-      }else{
-        setStatus('로그인')
-        navigate('/login')
-      }
+      authenticate ? setStatus('로그아웃') : setStatus('로그인');
     }, [authenticate])
 
   return (
     <div>
       <div className='login-button'>
-        <div onClick={() => setAuthenticate(!authenticate)}>
+        <div onClick={() => loginHandler()}>
           <FontAwesomeIcon icon={faUser} />
           <span style={{ cursor: "pointer" }}>{status}</span>
         </div>
