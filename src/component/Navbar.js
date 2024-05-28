@@ -1,15 +1,13 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-regular-svg-icons';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 
-const Navbar = ( { authenticate } ) => {
+const Navbar = ( { authenticate, setAuthenticate } ) => {
+    const [status, setStatus] = useState('로그인');
     const menuList = ['여성', 'Divided', '남성', '신생아/유아', '아동', 'H&M Home', 'Sale', '지속가능성']
     const navigate = useNavigate();
-    const goToLogin = () => {
-      navigate('/login')
-    }
 
     const search = (e) => {
       if(e.key === 'Enter'){
@@ -18,13 +16,23 @@ const Navbar = ( { authenticate } ) => {
       }
     }
 
+    useEffect(() => {
+      if(authenticate){
+        setStatus('로그아웃')
+      }else{
+        setStatus('로그인')
+        navigate('/login')
+      }
+    }, [authenticate])
+
   return (
     <div>
-      <div className='login-button' onClick={() => {goToLogin()}}>
-        <FontAwesomeIcon icon={faUser} />
-        <div>
-          {authenticate ? '로그아웃' : '로그인'}
+      <div className='login-button'>
+        <div onClick={() => setAuthenticate(!authenticate)}>
+          <FontAwesomeIcon icon={faUser} />
+          <span style={{ cursor: "pointer" }}>{status}</span>
         </div>
+
       </div>
       <div className='nav-section' onClick={() => {
         navigate('/');
