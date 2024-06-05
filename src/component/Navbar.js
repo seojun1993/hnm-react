@@ -1,13 +1,15 @@
-import React, { useEffect, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-regular-svg-icons';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
-const Navbar = ( { authenticate, setAuthenticate } ) => {
-    const [status, setStatus] = useState('로그인');
+const Navbar = () => {
+    const authenticate = useSelector(state => state.auth.authenticate);
+    const status = useSelector(state => state.auth.authenticate)
     const menuList = ['여성', 'Divided', '남성', '신생아/유아', '아동', 'H&M Home', 'Sale', '지속가능성']
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const search = (e) => {
       if(e.key === 'Enter'){
@@ -17,19 +19,17 @@ const Navbar = ( { authenticate, setAuthenticate } ) => {
     }
 
     const loginHandler = () => {
-      authenticate ? setAuthenticate(false) : navigate('/login');
+      authenticate ? dispatch({ type : 'LOGOUT_SUCCESS' }): navigate('/login');
     }
-
-    useEffect(() => {
-      authenticate ? setStatus('로그아웃') : setStatus('로그인');
-    }, [authenticate])
 
   return (
     <div>
       <div className='login-button'>
         <div onClick={() => loginHandler()}>
           <FontAwesomeIcon icon={faUser} />
-          <span style={{ cursor: "pointer" }}>{status}</span>
+          <span style={{ cursor: "pointer" }}>{
+            status ? '로그아웃' : '로그인'
+          }</span>
         </div>
 
       </div>

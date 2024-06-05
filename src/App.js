@@ -7,7 +7,6 @@ import PrivateRoute from './route/PrivateRoute';
 import Login from './page/Login';
 import Navbar from './component/Navbar';
 
-
 function App() {
   const [authenticate, setAuthenticate] = useState(false);
 
@@ -24,11 +23,11 @@ function App() {
 
   return (
     <div className="App">
-      <Navbar authenticate={ authenticate } setAuthenticate={ setAuthenticate }/>
+      <Navbar />
       <Routes>
         <Route path='/' element={ <ProudctAll/> }/>
-        <Route path='/login' element={ <Login setAuthenticate={setAuthenticate}/> }/>
-        <Route path='/product/:id' element={ <PrivateRoute authenticate={ authenticate }/>}/>
+        <Route path='/login' element={ <Login /> }/>
+        <Route path='/product/:id' element={ <PrivateRoute/>}/>
       </Routes>
 
     </div>
